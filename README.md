@@ -18,7 +18,7 @@ To set up StayEase, follow these steps:
 
 1. **Installation:**
    ```bash
-   go get -u github.com/bsaii/stay-ease
+   go get -u github.com/bsaii/stayease
    ```
 
 2. **Configuration:**
