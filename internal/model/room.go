@@ -12,5 +12,5 @@ type Room struct {
 	Capacity    int       `gorm:"not null" json:"capacity"`                // Maximum number of occupants the room can accommodate
 	Price       float32   `gorm:"default:0.00;not null" json:"price"`      // Price per night for booking the room
 	IsBooked    bool      `gorm:"default:false;not null" json:"is_booked"` // Indicates whether the room is currently booked
-	BookedDates []Booking `json:"booked_dates"`
+	BookedDates []Booking `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"booked_dates"`
 }

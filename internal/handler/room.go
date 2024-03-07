@@ -54,8 +54,8 @@ func GetRoom(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := db.First(&room, roomIdInt).Error; err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, fmt.Sprintf("Error finding room with id %s: %s", roomId, err.Error()))
+	if err := db.First(&room, roomIdInt).Preload("BookedDates").Error; err != nil {
+		utils.RespondWithError(w, http.StatusNotFound, fmt.Sprintf("Error finding room with id %s: %s", roomId, err.Error()))
 		return
 	}
 
@@ -71,7 +71,7 @@ func AllRooms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := db.Find(&rooms).Error; err != nil {
+	if err := db.Find(&rooms).Preload("BookedDates").Error; err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, fmt.Sprintf("Error finding all rooms: %s", err.Error()))
 		return
 	}
@@ -103,17 +103,17 @@ func UpdateRoom(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := db.First(&room, roomIdInt).Error; err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, fmt.Sprintf("Error finding room with id %s: %s", roomId, err.Error()))
+		utils.RespondWithError(w, http.StatusNotFound, fmt.Sprintf("Error finding room with id %s: %s", roomId, err.Error()))
 		return
 	}
 
-	if room_update.Capacity > 0 {
+	if room_update.Capacity > 0 && room_update.Capacity != room.Capacity {
 		room.Capacity = room_update.Capacity
 	}
 	if room_update.Description != "" {
 		room.Description = room_update.Description
 	}
-	if room_update.Price > 0 {
+	if room_update.Price > 0 && room_update.Price != room.Price {
 		room.Price = room_update.Price
 	}
 	if room_update.RoomNumber != "" {

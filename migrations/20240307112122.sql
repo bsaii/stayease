@@ -35,12 +35,11 @@ CREATE TABLE "public"."bookings" (
   "updated_at" timestamptz NULL,
   "deleted_at" timestamptz NULL,
   "room_id" bigint NULL,
-  "user_id" bigint NULL,
   "check_in_date" timestamptz NULL,
   "check_out_date" timestamptz NULL,
   "total_cost" numeric NOT NULL DEFAULT 0,
   PRIMARY KEY ("id"),
-  CONSTRAINT "fk_rooms_booked_dates" FOREIGN KEY ("room_id") REFERENCES "public"."rooms" ("id") ON UPDATE NO ACTION ON DELETE NO ACTION
+  CONSTRAINT "fk_rooms_booked_dates" FOREIGN KEY ("room_id") REFERENCES "public"."rooms" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 -- Create index "idx_bookings_deleted_at" to table: "bookings"
 CREATE INDEX "idx_bookings_deleted_at" ON "public"."bookings" ("deleted_at");
