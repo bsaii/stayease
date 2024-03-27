@@ -1,11 +1,16 @@
 package model
 
 import (
-	"gorm.io/gorm"
+	"time"
 )
 
+// swagger:model Room
 type Room struct {
-	gorm.Model
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `gorm:"index"`
+
 	RoomNumber  string    `gorm:"not null" json:"room_number"`             // A unique identifier for the room (e.g., room number or code)
 	Type        string    `gorm:"not null" json:"type"`                    // Type of room (e.g., Single, Double, Suite)
 	Description string    `gorm:"not null" json:"description"`             // Brief description of the room (features, amenities, etc.)

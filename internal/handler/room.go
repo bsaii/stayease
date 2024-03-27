@@ -12,6 +12,13 @@ import (
 	"gorm.io/gorm"
 )
 
+//	@Summary		Add a room.
+//	@Description	Add a room to the listing of rooms
+//	@Tags			rooms
+//	@Accept			json
+//	@Produce		json
+//	@Success		201	{object}	model.Room	"Room added successfully"
+//	@Router			/rooms [post]
 func AddRoom(w http.ResponseWriter, r *http.Request) {
 	room := &model.Room{}
 

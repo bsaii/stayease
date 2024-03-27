@@ -12,10 +12,12 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	_ "ariga.io/atlas-provider-gorm/gormschema"
+	_ "github.com/bsaii/stayease/docs"
 )
 
 func SetDBMiddleware(db *gorm.DB) func(http.Handler) http.Handler {
@@ -29,6 +31,25 @@ func SetDBMiddleware(db *gorm.DB) func(http.Handler) http.Handler {
 	}
 }
 
+//	@title			StayEase API
+//	@version		1.0
+//	@description	StayEase is a comprehensive room management API that simplifies the process of booking and managing rooms. With StayEase, users can easily search for available rooms, make reservations, and perform various management tasks related to room bookings.
+//	@termsOfService	http://stayease.io/terms/
+
+//	@contact.name	API Support
+//	@contact.url	http://www.stayease.io/support
+//	@contact.email	support@stayease.io
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+
+//	@host		localhost:8080
+//	@BasePath	/
+
+//	@securityDefinitions.basic	BasicAuth
+
+// @externalDocs.description	OpenAPI
+// @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	if err := godotenv.Load(".env"); err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
@@ -70,6 +91,9 @@ func main() {
 			r.Delete("/", handler.DelRoom)
 		})
 	})
+	r.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8080/swagger/doc.json"),
+	))
 
 	fmt.Println("Starting server on port:8080...")
 	http.ListenAndServe(":8080", r)

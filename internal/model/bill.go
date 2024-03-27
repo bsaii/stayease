@@ -1,9 +1,15 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"time"
+)
 
 type Bill struct {
-	gorm.Model
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `gorm:"index"`
+
 	CustomerName string  `gorm:"not null" json:"customer_name"`       // Name of the customer associated with the bill
 	Amount       float64 `gorm:"default:0.00;not null" json:"amount"` // Amount of the bill
 	Description  string  `gorm:"not null" json:"description"`         // Description or additional information about the bill

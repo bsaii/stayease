@@ -2,12 +2,14 @@ package model
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Booking struct {
-	gorm.Model
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `gorm:"index"`
+
 	RoomID       uint      `json:"room_id"`                                 // ID of the room being booked                                 // ID of the user making the booking
 	CheckInDate  time.Time `json:"check_in_date"`                           // Date and time of check-in
 	CheckOutDate time.Time `json:"check_out_date"`                          // Date and time of check-out
